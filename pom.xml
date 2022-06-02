@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<!--
+  ~ /*
+  ~  * Copyright memiiso Authors.
+  ~  *
+  ~  * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
+  ~  */
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.debezium</groupId>
+    <artifactId>debezium-server-spark</artifactId>
+    <name>Debezium Server Parent</name>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <revision>0.3.0-SNAPSHOT</revision>
+
+        <!-- Instruct the build to use only UTF-8 encoding for source code -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <release>11</release>
+        <skipITs>true</skipITs>
+
+        <version.groovy>3.0.10</version.groovy>
+        <version.awssdk>2.17.123</version.awssdk>
+        <version.assembly.plugin>3.1.1</version.assembly.plugin>
+        <version.jackson>2.13.3</version.jackson>
+        <version.spark>3.3.0</version.spark>
+        <version.spark.hadoopcloud>3.2.1</version.spark.hadoopcloud>
+        <version.scala>2.12.15</version.scala>
+        <version.hadoop>3.3.2</version.hadoop>
+        <version.log4j>2.17.2</version.log4j>
+        <!-- Debezium -->
+        <version.debezium>1.9.2.Final</version.debezium>
+        <version.mysql.driver>8.0.28</version.mysql.driver>
+        <!-- Quarkus -->
+        <version.quarkus>2.9.2.Final</version.quarkus>
+        <!-- ANTLR -->
+        <!-- Align with Antlr runtime version pulled in via debezium -->
+        <version.antlr>4.8</version.antlr>
+
+        <!-- Plugin versions -->
+        <version.maven-enforcer-plugin>3.0.0</version.maven-enforcer-plugin>
+        <version.maven-failsafe-plugin>3.0.0-M5</version.maven-failsafe-plugin>
+        <version.maven-surefire-plugin>3.0.0-M5</version.maven-surefire-plugin>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>cloudera-repos</id>
+            <name>Cloudera Repository</name>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+        <repository>
+            <id>Spark-rc</id>
+            <name>Spark RS Repo</name>
+            <url>https://repository.apache.org/content/repositories/orgapachespark-1403/</url>
+        </repository>
+    </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${version.antlr}</version>
+            </dependency>
+            <!-- quarkus -->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${version.quarkus}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-junit5</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <!-- MySQL JDBC Driver, Binlog reader, Geometry support -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${version.mysql.driver}</version>
+            </dependency>
+            <!-- debezium server -->
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-bom</artifactId>
+                <version>${version.debezium}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-server</artifactId>
+                <version>${version.debezium}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Debezium Scripting -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-bom</artifactId>
+                <version>${version.groovy}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Major dependencies -->
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-client</artifactId>
+                <version>${version.hadoop}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-mllib_2.12</artifactId>
+                <version>${version.spark}</version>
+            </dependency>
+            <!-- spark-hadoop-cloud -->
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-hadoop-cloud_2.12</artifactId>
+                <version>${version.spark.hadoopcloud}</version>
+            </dependency>
+            <!-- Upgrade jackson version for spark -->
+            <!-- Major dependencies -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${version.jackson}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${version.awssdk}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-bom</artifactId>
+                <version>9.4.44.v20210927</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.13</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.15</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+            <!-- Scala -->
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${version.scala}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-compiler</artifactId>
+                <version>${version.scala}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-reflect</artifactId>
+                <version>${version.scala}</version>
+            </dependency>
+            <!-- END Scala -->
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>debezium-server-spark-sinks</module>
+        <module>debezium-server-spark-dist</module>
+    </modules>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${version.maven-enforcer-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>enforce-dependencyConvergence</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <DependencyConvergence/>
+                            </rules>
+                            <fail>false</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <rules>
+                        <requireJavaVersion>
+                            <message>You are running an incompatible version of Java. Debezium Quarkus supports JDK 11
+                                or
+                                later.
+                            </message>
+                            <version>[11,)</version>
+                        </requireJavaVersion>
+                    </rules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
