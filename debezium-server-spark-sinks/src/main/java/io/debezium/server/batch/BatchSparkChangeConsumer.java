@@ -6,9 +6,7 @@
  *
  */
 
-package io.debezium.server.batch.spark;
-
-import io.debezium.server.batch.DebeziumEvent;
+package io.debezium.server.batch;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -79,10 +77,10 @@ public class BatchSparkChangeConsumer extends AbstractSparkChangeConsumer {
   }
 
   @Override
-  public long uploadDestination(String destination, List<DebeziumEvent> data) {
+  public long uploadDestination(String destination, List<DebeziumSparkEvent> data) {
 
     Instant start = Instant.now();
-    StructType dfSchema = new DebeziumSparkEvent(data.get(0)).getSparkDfSchema();
+    StructType dfSchema = data.get(0).getSparkDfSchema();
     List<String> dataList = data.stream().map(e -> writeJsonNodeAsString(e.value())).collect(Collectors.toList());
     Dataset<String> ds = spark.createDataset(dataList, Encoders.STRING());
     Dataset<Row> df;

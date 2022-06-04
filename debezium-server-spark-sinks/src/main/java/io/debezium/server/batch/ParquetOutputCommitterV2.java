@@ -6,7 +6,7 @@
  *
  */
 
-package io.debezium.server.batch.spark;
+package io.debezium.server.batch;
 
 import java.io.IOException;
 import java.util.List;

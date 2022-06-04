@@ -6,10 +6,7 @@
  *
  */
 
-package io.debezium.server.batch.spark;
-
-import io.debezium.server.batch.AbstractChangeConsumer;
-import io.debezium.server.batch.BatchUtil;
+package io.debezium.server.batch;
 
 import java.util.Map;
 

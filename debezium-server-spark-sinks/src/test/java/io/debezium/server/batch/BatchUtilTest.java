@@ -9,7 +9,6 @@
 package io.debezium.server.batch;
 
 import io.debezium.serde.DebeziumSerdes;
-import io.debezium.server.batch.spark.DebeziumSparkEvent;
 import io.debezium.util.Testing;
 
 import java.util.Collections;
@@ -30,13 +29,13 @@ class BatchUtilTest {
   public StructType getEventSparkDfSchema(String event) throws JsonProcessingException {
     JsonNode jsonNode = new ObjectMapper().readTree(event);
 
-    DebeziumEvent e = new DebeziumEvent("test",
+    DebeziumSparkEvent e = new DebeziumSparkEvent("test",
         jsonNode.get("payload"),
         null,
         jsonNode.get("schema"),
         null
     );
-    return new DebeziumSparkEvent(e).getSparkDfSchema();
+    return e.getSparkDfSchema();
   }
 
   @Test

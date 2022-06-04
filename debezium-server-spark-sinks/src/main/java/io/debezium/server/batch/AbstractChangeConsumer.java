@@ -103,11 +103,11 @@ public abstract class AbstractChangeConsumer extends BaseChangeConsumer implemen
     LOGGER.trace("Received {} events", records.size());
 
     Instant start = Instant.now();
-    Map<String, List<DebeziumEvent>> events = records.stream()
+    Map<String, List<DebeziumSparkEvent>> events = records.stream()
         .map((ChangeEvent<Object, Object> e)
             -> {
           try {
-            return new DebeziumEvent(e.destination(),
+            return new DebeziumSparkEvent(e.destination(),
                 getPayload(e.destination(), e.value()), //valDeserializer.deserialize(e.destination(), getBytes(e.value())),
                 e.key() == null ? null : keyDeserializer.deserialize(e.destination(), getBytes(e.key())),
                 mapper.readTree(getBytes(e.value())).get("schema"),
@@ -117,19 +117,19 @@ public abstract class AbstractChangeConsumer extends BaseChangeConsumer implemen
             throw new DebeziumException(ex);
           }
         })
-        .collect(Collectors.groupingBy(DebeziumEvent::destination));
+        .collect(Collectors.groupingBy(DebeziumSparkEvent::destination));
 
     long numUploadedEvents = 0;
-    for (Map.Entry<String, List<DebeziumEvent>> destinationEvents : events.entrySet()) {
+    for (Map.Entry<String, List<DebeziumSparkEvent>> destinationEvents : events.entrySet()) {
       // group list of events by their schema, if in the batch we have schema change events grouped by their schema
       // so with this uniform schema is guaranteed for each batch
-      Map<JsonNode, List<DebeziumEvent>> eventsGroupedBySchema =
+      Map<JsonNode, List<DebeziumSparkEvent>> eventsGroupedBySchema =
           destinationEvents.getValue().stream()
-              .collect(Collectors.groupingBy(DebeziumEvent::valueSchema));
+              .collect(Collectors.groupingBy(DebeziumSparkEvent::valueSchema));
       LOGGER.debug("Batch got {} records with {} different schema!!", destinationEvents.getValue().size(),
           eventsGroupedBySchema.keySet().size());
 
-      for (List<DebeziumEvent> schemaEvents : eventsGroupedBySchema.values()) {
+      for (List<DebeziumSparkEvent> schemaEvents : eventsGroupedBySchema.values()) {
         numUploadedEvents += this.uploadDestination(destinationEvents.getKey(), schemaEvents);
       }
     }
@@ -169,7 +169,7 @@ public abstract class AbstractChangeConsumer extends BaseChangeConsumer implemen
     return pl;
   }
 
-  protected File getJsonLinesFile(String destination, List<DebeziumEvent> data) {
+  protected File getJsonLinesFile(String destination, List<DebeziumSparkEvent> data) {
 
     Instant start = Instant.now();
     final File tempFile;
@@ -178,7 +178,7 @@ public abstract class AbstractChangeConsumer extends BaseChangeConsumer implemen
       FileOutputStream fos = new FileOutputStream(tempFile, true);
       LOGGER.debug("Writing {} events as jsonlines file: {}", data.size(), tempFile);
 
-      for (DebeziumEvent e : data) {
+      for (DebeziumSparkEvent e : data) {
         final JsonNode valNode = e.value();
 
         if (valNode == null) {
@@ -207,6 +207,6 @@ public abstract class AbstractChangeConsumer extends BaseChangeConsumer implemen
     return tempFile;
   }
 
-  public abstract long uploadDestination(String destination, List<DebeziumEvent> data) throws InterruptedException;
+  public abstract long uploadDestination(String destination, List<DebeziumSparkEvent> data) throws InterruptedException;
 
 }

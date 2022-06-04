@@ -6,9 +6,7 @@
  *
  */
 
-package io.debezium.server.batch.spark;
-
-import io.debezium.server.batch.DebeziumEvent;
+package io.debezium.server.batch;
 
 import java.util.Arrays;
 
@@ -22,10 +20,38 @@ import org.slf4j.LoggerFactory;
  */
 public class DebeziumSparkEvent {
   protected static final Logger LOGGER = LoggerFactory.getLogger(DebeziumSparkEvent.class);
-  final DebeziumEvent event;
+  protected final String destination;
+  protected final JsonNode value;
+  protected final JsonNode key;
+  protected final JsonNode valueSchema;
+  protected final JsonNode keySchema;
 
-  public DebeziumSparkEvent(DebeziumEvent event) {
-    this.event = event;
+  public DebeziumSparkEvent(String destination, JsonNode value, JsonNode key, JsonNode valueSchema, JsonNode keySchema) {
+    this.destination = destination;
+    this.value = value;
+    this.key = key;
+    this.valueSchema = valueSchema;
+    this.keySchema = keySchema;
+  }
+
+  public String destination() {
+    return destination;
+  }
+
+  public JsonNode value() {
+    return value;
+  }
+
+  public JsonNode key() {
+    return key;
+  }
+
+  public JsonNode valueSchema() {
+    return valueSchema;
+  }
+
+  public JsonNode keySchema() {
+    return keySchema;
   }
 
   private static StructType getSparkDfSchema(JsonNode schemaNode) {
@@ -97,7 +123,7 @@ public class DebeziumSparkEvent {
   }
 
   public StructType getSparkDfSchema() {
-    StructType dfSchema = getSparkDfSchema(event.valueSchema());
+    StructType dfSchema = getSparkDfSchema(this.valueSchema());
     if (dfSchema == null) {
       return null;
     }
