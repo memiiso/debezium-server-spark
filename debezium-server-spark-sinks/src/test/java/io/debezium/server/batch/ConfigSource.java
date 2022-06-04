@@ -67,7 +67,7 @@ public class ConfigSource extends TestConfigSource {
     config.put("debezium.sink.sparkbatch.spark.hadoop.fs.s3a.path.style.access", "true");
     config.put("debezium.sink.sparkbatch.spark.hadoop.fs.s3a.endpoint", "http://localhost:9000"); // minio specific setting
     config.put("debezium.sink.sparkbatch.spark.sql.parquet.output.committer.class",
-        "io.debezium.server.batch.ParquetOutputCommitterV2");
+        "io.debezium.server.batch.spark.ParquetOutputCommitterV2");
     config.put("debezium.sink.sparkbatch.mapreduce.fileoutputcommitter.pending.dir", "_tmptest");
 
 

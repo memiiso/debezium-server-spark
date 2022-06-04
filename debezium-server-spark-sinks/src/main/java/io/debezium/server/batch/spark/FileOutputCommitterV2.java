@@ -6,7 +6,7 @@
  *
  */
 
-package io.debezium.server.batch;
+package io.debezium.server.batch.spark;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
