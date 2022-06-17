@@ -56,11 +56,6 @@
             <name>Cloudera Repository</name>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
         </repository>
-        <repository>
-            <id>Spark-rc</id>
-            <name>Spark RS Repo</name>
-            <url>https://repository.apache.org/content/repositories/orgapachespark-1403/</url>
-        </repository>
     </repositories>
     <dependencyManagement>
         <dependencies>
