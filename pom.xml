@@ -32,6 +32,7 @@
         <version.jackson>2.13.3</version.jackson>
         <version.spark>3.3.1</version.spark>
         <version.spark.hadoopcloud>3.2.1</version.spark.hadoopcloud>
+        <version.scala>2.12.15</version.scala>
         <version.hadoop>3.3.4</version.hadoop>
         <version.log4j>2.19.0</version.log4j>
         <!-- Debezium -->
