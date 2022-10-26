@@ -20,12 +20,15 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.awaitility.Awaitility;
 import org.junit.After;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 @TestProfile(ParquetOutputCommitterV2TestProfile.class)
+@Disabled
 class ParquetOutputCommitterV2Test extends BaseSparkTest {
   @Test
+  @Disabled
   public void testSimpleUpload() {
     Testing.Print.enable();
 
