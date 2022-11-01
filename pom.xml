@@ -31,7 +31,6 @@
         <version.assembly.plugin>3.1.1</version.assembly.plugin>
         <version.spark>3.3.1</version.spark>
         <version.spark.hadoopcloud>3.3.1</version.spark.hadoopcloud>
-        <version.scala>2.12.15</version.scala>
         <version.hadoop>3.3.2</version.hadoop>
         <!-- Debezium -->
         <version.debezium>1.9.7.Final</version.debezium>
@@ -128,23 +127,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Scala -->
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${version.scala}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-compiler</artifactId>
-                <version>${version.scala}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-reflect</artifactId>
-                <version>${version.scala}</version>
-            </dependency>
-            <!-- END Scala -->
         </dependencies>
     </dependencyManagement>
 
