@@ -43,6 +43,7 @@ public class S3Minio implements QuarkusTestResourceLifecycleManager {
           .forPath(HEALTH_ENDPOINT)
           .forPort(MINIO_DEFAULT_PORT)
           .withStartupTimeout(Duration.ofSeconds(30)))
+      .withExposedPorts(MINIO_DEFAULT_PORT)
       .withEnv("MINIO_ACCESS_KEY", MINIO_ACCESS_KEY)
       .withEnv("MINIO_SECRET_KEY", MINIO_SECRET_KEY)
       .withEnv("MINIO_REGION_NAME", ConfigSource.S3_REGION)
