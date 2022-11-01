@@ -31,7 +31,7 @@
         <version.assembly.plugin>3.1.1</version.assembly.plugin>
         <version.jackson>2.13.3</version.jackson>
         <version.spark>3.3.1</version.spark>
-        <version.spark.hadoopcloud>3.3.0.3.3.7180.0-274</version.spark.hadoopcloud>
+        <version.spark.hadoopcloud>3.3.1</version.spark.hadoopcloud>
         <version.scala>2.12.15</version.scala>
         <version.hadoop>3.3.2</version.hadoop>
         <!-- Debezium -->
