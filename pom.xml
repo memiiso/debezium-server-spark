@@ -32,7 +32,7 @@
         <version.spark>3.3.1</version.spark>
         <version.spark.scala>2.13</version.spark.scala>
         <version.spark.hadoopcloud>3.3.1</version.spark.hadoopcloud>
-        <version.hadoop>3.3.2</version.hadoop>
+        <version.hadoop>3.3.4</version.hadoop>
         <!-- Debezium -->
         <version.debezium>1.9.7.Final</version.debezium>
         <version.mysql.driver>8.0.28</version.mysql.driver>
