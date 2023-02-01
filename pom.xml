@@ -27,7 +27,7 @@
         <skipITs>true</skipITs>
 
         <version.groovy>3.0.13</version.groovy>
-        <version.awssdk>2.18.11</version.awssdk>
+        <version.awssdk>2.19.28</version.awssdk>
         <version.assembly.plugin>3.4.2</version.assembly.plugin>
         <version.spark>3.3.1</version.spark>
         <version.spark.scala>2.13</version.spark.scala>
